@@ -1,21 +1,8 @@
 const inquirer = require("inquirer");
-const path = require("path");
-const fs = require("fs");
-const mysql = require("mysql");
+require("console.table");
+const db = require("./db/db.js");
 
-var connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "2500573hmb",
-    database: "employee_tracker_db"
-  });
-  
-connection.connect(function(err) {
-if (err) throw err;
 startApp();
-});
-
 
 const startApp = () => {
     inquirer.prompt([
@@ -42,7 +29,6 @@ const startApp = () => {
             case "View All Employees by Department":
             byDepartment();
             break;
-
         //   if (response.action === "View all Employees by Manager")
         //   byManager();
         //   if (response.action === "Add Employee")
@@ -59,14 +45,17 @@ const startApp = () => {
       });
 };
 
-const viewAll = () => {
-        var query = "SELECT * FROM employee INNER JOIN role";
-        connection.query(query, function(err, res) {
-          for (var i = 0; i < res.length; i++) {
-            console.table(response);
-          }
-          startApp();
-        });      
+async function viewAll (){
+    // const query = "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id";
+    // console.table(connection.query(query)); 
+
+    const employees = await 
+    db.findAllEmployees();
+
+    console.log("\n");  
+    console.table(employees);
+
+    // loadMainPrompts();
 };
 
 const byDepartment = () => {
