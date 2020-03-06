@@ -1,6 +1,6 @@
 -- DROP DATABASE IF EXISTS employee_tracker_db;
 
-CREATE DATABASE employee_tracker_db;
+-- CREATE DATABASE employee_tracker_db;
 
 USE employee_tracker_db;
 
@@ -21,9 +21,4 @@ id INT AUTO_INCREMENT PRIMARY KEY,
 first_name VARCHAR(30) NOT NULL,
 last_name VARCHAR(30) NOT NULL,
 role_id INT NOT NULL,
-manager_id INT NOT NULL
 );
-
-SELECT*FROM department;
-SELECT*FROM role;
-SELECT*FROM employee;
