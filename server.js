@@ -19,6 +19,7 @@ connection.connect(function(err) {
     employeeRoles();
 });
 
+//GOOD TO GO 
 const startApp = () => {
     inquirer.prompt([{
         type: "rawlist",
@@ -81,21 +82,22 @@ const addEmployee = () => {
                         for (let i = 0; i < roles.length; i++) {
                             rolesArray.push(`${roles[i].id}: ${roles[i].title}`)
                         }
+                        console.log(rolesArray);
                         return rolesArray;
                     }
                 }
             ])
             .then((res) => {
                 console.log("RESPONSE", res);
-                connection.query("INSERT INTO employee SET ?, ?, ?", [
-                        { first_name: res.first_name },
-                        { last_name: res.last_name },
-                        { role_id: role_id }
-                    ],
-                    function(err, res) {
-                        if (err) throw err;
-                    });
-                startApp();
+                connection.query("INSERT INTO employee SET ?", [
+                    { first_name: res.first_name },
+                    { last_name: res.last_name },
+                    { role_id: res.role_id }
+                ], function(err, res) {
+                    if (err) throw err;
+                    console.log("Your employee was added!");
+                    startApp();
+                });
             });
     });
 };
