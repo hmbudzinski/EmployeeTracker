@@ -88,7 +88,7 @@ const addEmployee = () => {
                 ])
                 .then((res) => {
                     for (var i = 0; i < roles.length; i++) {
-                        console.log("RESPONSE", roles.indexOf([i]));
+                        // console.log("RESPONSE", roles.indexOf([i]));
                     }
                     connection.query("INSERT INTO employee SET ?, ?, ?", [
                         { first_name: res.first_name },
