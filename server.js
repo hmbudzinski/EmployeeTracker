@@ -3,12 +3,10 @@ const consoleTable = require("console.table");
 const mysql = require("mysql");
 let roles = [];
 
-
 const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
-    //add password hide thing
     password: "2500573hmb",
     database: "employee_tracker_db"
 });
@@ -21,7 +19,6 @@ connection.connect(function(err) {
 });
 
 const startApp = () => {
-    console.log(roles)
     inquirer.prompt([{
         type: "rawlist",
         name: "start",
@@ -59,26 +56,16 @@ const empRoles = () => {
 
         for (var i = 0; i < res.length; i++) {
 
-            // {'attorney': 1}
-            // {title: 'attorney', role_id: 1}
-
-            // console.log("RES I", [{
-            //     title: res[i].title,
-            //     id: res[i].id
-            // }])
-
             roles.push({
                 title: res[i].title,
                 id: res[i].id
             })
-            console.log("ROLES", roles)
         }
     })
 };
 
 
 const addEmployee = () => {
-    console.log("Adding new employee...\n")
 
     connection.query("SELECT id, first_name, last_name, role_id FROM employee", function(err, res) {
         connection.query("SELECT id, title FROM roles", function(err, res) {
@@ -100,20 +87,17 @@ const addEmployee = () => {
                     }
                 ])
                 .then((res) => {
-                    // console.log("RESPONSE", res);
-                    // console.log("TITLE", res.title)
                     for (var i = 0; i < roles.length; i++) {
-                        //loop through the roles array and use index of to find the id of the title and insert thta id into the database. 
-                        connection.query("INSERT INTO employee SET ?, ?, ?", [
-                            { first_name: res.first_name },
-                            { last_name: res.last_name },
-                            { role_id: roles[i].id }
-                        ], function(err, res) {
-                            if (err) throw err;
-                            console.log("Your employee was added!");
-                            startApp();
-                        });
+                        console.log("RESPONSE", roles.indexOf([i]));
                     }
+                    connection.query("INSERT INTO employee SET ?, ?, ?", [
+                        { first_name: res.first_name },
+                        { last_name: res.last_name },
+                        { role_id: i }
+                    ], function(err, res) {
+                        if (err) throw err;
+                        startApp();
+                    });
                 });
         });
     });
